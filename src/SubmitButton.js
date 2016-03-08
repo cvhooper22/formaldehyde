@@ -13,23 +13,8 @@ export default class SubmitButton extends React.Component {
   };
 
   static contextTypes = {
-    registerFormButton: React.PropTypes.func.isRequired,
-    unregisterFormButton: React.PropTypes.func.isRequired,
+    formStatus: React.PropTypes.object.isRequired,
   };
-
-  componentDidMount () {
-    this.context.registerFormButton(this);
-  }
-
-  componentWillUnmount () {
-    this.context.unregisterFormButton(this);
-  }
-
-  setFormSubmitting (status) {
-    this.setState({
-      formSubmitting: status,
-    });
-  }
 
   render () {
     return (
@@ -40,7 +25,7 @@ export default class SubmitButton extends React.Component {
         name={ this.props.name }
         onClick={ this.props.onClick }
         onFocus={ this.props.onFocus }
-        disabled={ this.state && this.state.formSubmitting }
+        disabled={ this.context.formStatus.isSubmitting }
         >
         { this.props.children }
       </button>

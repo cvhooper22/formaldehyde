@@ -21,16 +21,16 @@ export default class Textarea extends React.Component {
 
   static contextTypes = {
     getFormModelValue: React.PropTypes.func.isRequired,
-    registerFormInput: React.PropTypes.func.isRequired,
-    unregisterFormInput: React.PropTypes.func.isRequired,
+    registerFormControl: React.PropTypes.func.isRequired,
+    unregisterFormControl: React.PropTypes.func.isRequired,
   };
 
   componentDidMount () {
-    this.context.registerFormInput(this);
+    this.context.registerFormControl(this);
   }
 
   componentWillUnmount () {
-    this.context.unregisterFormInput(this);
+    this.context.unregisterFormControl(this);
   }
 
   getId () {

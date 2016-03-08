@@ -24,8 +24,8 @@ export default class TagsInput extends React.Component {
 
   static contextTypes = {
     getFormModelValue: React.PropTypes.func.isRequired,
-    registerFormInput: React.PropTypes.func.isRequired,
-    unregisterFormInput: React.PropTypes.func.isRequired,
+    registerFormControl: React.PropTypes.func.isRequired,
+    unregisterFormControl: React.PropTypes.func.isRequired,
   };
 
   constructor (props, context) {
@@ -42,7 +42,7 @@ export default class TagsInput extends React.Component {
   }
 
   componentDidMount () {
-    this.context.registerFormInput(this);
+    this.context.registerFormControl(this);
   }
 
   componentWillReceiveProps (props) {
@@ -56,7 +56,7 @@ export default class TagsInput extends React.Component {
       window.clearTimeout(this.onBlurTimeout);
       delete this.onBlurTimeout;
     }
-    this.context.unregisterFormInput(this);
+    this.context.unregisterFormControl(this);
   }
 
   buildAutcompleteListHash (list = []) {

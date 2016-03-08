@@ -21,31 +21,26 @@ export default class Form extends React.Component {
   static childContextTypes = {
     formModel: React.PropTypes.object,
     getFormModelValue: React.PropTypes.func,
-    registerFormButton: React.PropTypes.func,
-    registerFormInput: React.PropTypes.func,
-    unregisterFormButton: React.PropTypes.func,
-    unregisterFormInput: React.PropTypes.func,
+    formStatus: React.PropTypes.object,
+    registerFormControl: React.PropTypes.func,
+    unregisterFormControl: React.PropTypes.func,
   };
 
   constructor (props, context) {
     super(props, context);
     this.getFormModelValue = ::this.getFormModelValue;
-    this.onInputRegistration = ::this.onInputRegistration;
-    this.onInputUnregistration = ::this.onInputUnregistration;
-    this.onButtonRegistration = ::this.onButtonRegistration;
-    this.onButtonUnregistration = ::this.onButtonUnregistration;
-    this.registeredInputs = [];
-    this.registeredButtons = [];
+    this.onControlRegistration = ::this.onControlRegistration;
+    this.onControlUnregistration = ::this.onControlUnregistration;
+    this.registeredControls = [];
   }
 
   getChildContext () {
     return {
       formModel: this.props.model,
       getFormModelValue: this.getFormModelValue,
-      registerFormButton: this.onButtonRegistration,
-      registerFormInput: this.onInputRegistration,
-      unregisterFormButton: this.onButtonUnregistration,
-      unregisterFormInput: this.onInputUnregistration,
+      formStatus: this.getFormStatus(),
+      registerFormControl: this.onControlRegistration,
+      unregisterFormControl: this.onControlUnregistration,
     };
   }
 
@@ -81,30 +76,23 @@ export default class Form extends React.Component {
     });
   }
 
-  onInputRegistration (input) {
-    if (this.registeredInputs.indexOf(input) === -1) {
-      this.registeredInputs.push(input);
+  onControlRegistration (input) {
+    if (this.registeredControls.indexOf(input) === -1) {
+      this.registeredControls.push(input);
     }
   }
 
-  onInputUnregistration (input) {
-    const index = this.registeredInputs.indexOf(input);
+  onControlUnregistration (input) {
+    const index = this.registeredControls.indexOf(input);
     if (index !== -1) {
-      this.registeredInputs.splice(index, 1);
+      this.registeredControls.splice(index, 1);
     }
   }
 
-  onButtonRegistration (button) {
-    if (this.registeredButtons.indexOf(button) === -1) {
-      this.registeredButtons.push(button);
-    }
-  }
-
-  onButtonUnregistration (button) {
-    const index = this.registeredButtons.indexOf(button);
-    if (index !== -1) {
-      this.registeredButtons.splice(button, 1);
-    }
+  getFormStatus () {
+    return {
+      isSubmitting: this.state && this.state.isSubmitting,
+    };
   }
 
   getFormModelValue (name) {
@@ -124,17 +112,17 @@ export default class Form extends React.Component {
   }
 
   getValidationErrors (modelValue) {
-    return _.chain(this.registeredInputs).map((inputComponent) => {
-      if (!inputComponent.getValidationError) {
+    return _.chain(this.registeredControls).map((control) => {
+      if (!control.getValidationError) {
         return undefined;
       }
-      const errorMessage = inputComponent.getValidationError();
+      const errorMessage = control.getValidationError();
       if (errorMessage) {
         /* eslint-disable no-console */
-        console.warn('Validation error', inputComponent, errorMessage);
+        console.warn('Validation error', control, errorMessage);
         return {
           errorMessage,
-          inputComponent,
+          control,
         };
       }
       return undefined;
@@ -172,10 +160,12 @@ export default class Form extends React.Component {
   }
 
   gatherInputValues () {
-    return _.reduce(this.registeredInputs, (model, inputComponent) => {
-      const value = inputComponent.getValue();
-      if (value !== undefined) {
-        _.set(model, inputComponent.props.name, value);
+    return _.reduce(this.registeredControls, (model, control) => {
+      if (control && _.isFunction(control.getValue)) {
+        const value = control.getValue();
+        if (value !== undefined) {
+          _.set(model, control.props.name, value);
+        }
       }
       return model;
     }, _.cloneDeep(this.props.model || {}));
@@ -222,9 +212,9 @@ export default class Form extends React.Component {
       isSubmitting: true,
       errorMessage: false,
     });
-    this.registeredButtons.forEach((button) => {
-      if (button.setFormSubmitting) {
-        button.setFormSubmitting(true);
+    this.registeredControls.forEach((input) => {
+      if (input.setFormSubmitting) {
+        input.setFormSubmitting(true, this);
       }
     });
   }
@@ -234,9 +224,9 @@ export default class Form extends React.Component {
       isSubmitting: false,
       errorMessage: false,
     }, cb);
-    this.registeredButtons.forEach((button) => {
-      if (button.setFormSubmitting) {
-        button.setFormSubmitting(false);
+    this.registeredControls.forEach((input) => {
+      if (input.setFormSubmitting) {
+        input.setFormSubmitting(false, this);
       }
     });
   }
