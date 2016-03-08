@@ -1,6 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
-import inputValidityError from '../helpers/inputValidityError';
+import inputValidityError from './helpers/inputValidityError';
 
 export default class Input extends React.Component {
   static propTypes = {
@@ -33,16 +32,6 @@ export default class Input extends React.Component {
 
   componentWillUnmount () {
     this.context.unregisterFormInput(this);
-  }
-
-  getId () {
-    if (this.props.id) {
-      return this.props.id;
-    }
-    if (!this._id) {
-      this._id = _.uniqueId('input');
-    }
-    return this._id;
   }
 
   getModelValue () {
@@ -85,15 +74,15 @@ export default class Input extends React.Component {
         max={ this.props.max }
         min={ this.props.min }
         name={ this.props.name }
-        pattern={ this.props.pattern }
-        placeholder={ this.props.placeholder }
-        required={ this.props.required }
-        type={ this.props.type }
         onBlur={ this.props.onBlur }
         onChange={ this.props.onChange }
         onClick={ this.props.onClick }
         onFocus={ this.props.onFocus }
+        pattern={ this.props.pattern }
+        placeholder={ this.props.placeholder }
         ref="input"
+        required={ this.props.required }
+        type={ this.props.type }
       />
     );
   }
@@ -101,27 +90,20 @@ export default class Input extends React.Component {
   renderRadioCheckbox () {
     const checked = this.getModelValue() === this.props.value;
     return (
-      <span>
-        <input
-          className={ this.props.className }
-          id={ this.getId() }
-          name={ this.props.name }
-          placeholder={ this.props.placeholder }
-          type={ this.props.type }
-          onBlur={ this.props.onBlur }
-          onChange={ this.props.onChange }
-          onClick={ this.props.onClick }
-          onFocus={ this.props.onFocus }
-          value={ this.props.value }
-          defaultChecked={ checked }
-          ref="input"
-        />
-        <label htmlFor={ this.getId() }>
-          <div className={ this.props.className }>
-            <div></div>
-          </div>
-        </label>
-      </span>
+      <input
+        className={ this.props.className }
+        defaultChecked={ checked }
+        id={ this.props.id }
+        name={ this.props.name }
+        onBlur={ this.props.onBlur }
+        onChange={ this.props.onChange }
+        onClick={ this.props.onClick }
+        onFocus={ this.props.onFocus }
+        placeholder={ this.props.placeholder }
+        ref="input"
+        type={ this.props.type }
+        value={ this.props.value }
+      />
     );
   }
 

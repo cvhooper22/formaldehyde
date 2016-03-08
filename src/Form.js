@@ -1,5 +1,4 @@
 import React from 'react';
-import { WaitIndicator } from 'transcend-js';
 import _ from 'lodash';
 
 export default class Form extends React.Component {
@@ -16,6 +15,7 @@ export default class Form extends React.Component {
     onValidationFail: React.PropTypes.func,
     validateForm: React.PropTypes.func,
     showValidationErrors: React.PropTypes.bool,
+    waitIndicator: React.PropTypes.node,
   };
 
   static childContextTypes = {
@@ -166,8 +166,8 @@ export default class Form extends React.Component {
   }
 
   renderWaitIndicator () {
-    if (this.state && this.state.isSubmitting) {
-      return <WaitIndicator className="cover-all" />;
+    if (this.state && this.state.isSubmitting && this.props.waitIndicator) {
+      return <div className="form__wait-indictator">{ this.props.waitIndicator }</div>;
     }
   }
 
