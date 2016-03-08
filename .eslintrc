@@ -1,0 +1,28 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "rules": {
+    "space-before-function-paren": [2, "always"],
+    "func-names": 0,
+    "no-else-return": 0,
+    "arrow-spacing": 2,
+    "react/prop-types": 2,
+    "react/sort-comp": [2, {
+      "order": [
+        "propTypes",
+        "connectedActions",
+        "constructor",
+        "lifecycle",
+        "/^build.+$/",
+        "/^on.+$/",
+        "/^(get|set)(?!(InitialState$|DefaultProps$|ChildContext$)).+$/",
+        "render",
+        "/^render.+$/",
+        "everything-else"
+      ]
+    }]
+  },
+  "ecmaFeatures": {
+    "experimentalObjectRestSpread": true
+  }
+}

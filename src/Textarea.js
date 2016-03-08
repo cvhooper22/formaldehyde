@@ -1,0 +1,81 @@
+import React from 'react';
+import _ from 'lodash';
+import inputValidityError from '../helpers/inputValidityError';
+
+export default class Textarea extends React.Component {
+  static propTypes = {
+    className: React.PropTypes.string,
+    id: React.PropTypes.string,
+    max: React.PropTypes.number,
+    min: React.PropTypes.number,
+    name: React.PropTypes.string.isRequired,
+    pattern: React.PropTypes.string,
+    placeholder: React.PropTypes.string,
+    required: React.PropTypes.bool,
+    value: React.PropTypes.any,
+    onBlur: React.PropTypes.func,
+    onChange: React.PropTypes.func,
+    onClick: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
+  };
+
+  static contextTypes = {
+    getFormModelValue: React.PropTypes.func.isRequired,
+    registerFormInput: React.PropTypes.func.isRequired,
+    unregisterFormInput: React.PropTypes.func.isRequired,
+  };
+
+  componentDidMount () {
+    this.context.registerFormInput(this);
+  }
+
+  componentWillUnmount () {
+    this.context.unregisterFormInput(this);
+  }
+
+  getId () {
+    if (this.props.id) {
+      return this.props.id;
+    }
+    if (!this._id) {
+      this._id = _.uniqueId('input');
+    }
+    return this._id;
+  }
+
+  getModelValue () {
+    return this.context.getFormModelValue(this.props.name);
+  }
+
+  getValue () {
+    return this.refs.input.value;
+  }
+
+  getValidationError () {
+    if (!this.refs.input.checkValidity()) {
+      return undefined;
+    }
+    return inputValidityError(this.refs.input);
+  }
+
+  render () {
+    return (
+      <textarea
+        className={ this.props.className }
+        defaultValue={ this.getModelValue() }
+        id={ this.props.id }
+        max={ this.props.max }
+        min={ this.props.min }
+        name={ this.props.name }
+        pattern={ this.props.pattern }
+        placeholder={ this.props.placeholder }
+        required={ this.props.required }
+        onBlur={ this.props.onBlur }
+        onChange={ this.props.onChange }
+        onClick={ this.props.onClick }
+        onFocus={ this.props.onFocus }
+        ref="input"
+      />
+    );
+  }
+}

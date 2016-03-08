@@ -1,0 +1,17 @@
+sudo: false
+language: node_js
+node_js:
+  - stable
+before_install:
+  - npm set progress=false
+cache:
+  directories:
+    - node_modules
+branches:
+  only:
+    - master
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+addons:
+  firefox: latest
