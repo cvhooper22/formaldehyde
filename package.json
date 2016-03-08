@@ -1,6 +1,6 @@
 {
   "name": "formaldehyde",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React form creation/validation/population. Supports top-down rendering with input population. Keeps the immutable data structures mindset.",
   "main": "lib/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
   "peerDependencies": {
     "react": "^0.14.3"
   },
-   "devDependencies": {
+  "devDependencies": {
     "babel-cli": "^6.4.0",
     "babel-core": "^6.4.0",
     "babel-eslint": "^4.1.6",
