@@ -52,9 +52,6 @@ export default class TextArea extends React.Component {
   }
 
   getValidationError () {
-    if (!this.refs.input.checkValidity()) {
-      return undefined;
-    }
     return inputValidityError(this.refs.input);
   }
 

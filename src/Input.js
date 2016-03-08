@@ -51,9 +51,6 @@ export default class Input extends React.Component {
   }
 
   getValidationError () {
-    if (!this.refs.input.checkValidity()) {
-      return undefined;
-    }
     return inputValidityError(this.refs.input);
   }
 
