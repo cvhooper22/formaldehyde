@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import inputValidityError from './helpers/inputValidityError';
 
-export default class Textarea extends React.Component {
+export default class TextArea extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
     id: React.PropTypes.string,
