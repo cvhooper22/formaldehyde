@@ -21,13 +21,15 @@ export default class Form extends React.Component {
   static childContextTypes = {
     formModel: React.PropTypes.object,
     getFormModelValue: React.PropTypes.func,
-    formStatus: React.PropTypes.object,
+    getFormStatus: React.PropTypes.func,
     registerFormControl: React.PropTypes.func,
     unregisterFormControl: React.PropTypes.func,
   };
 
   constructor (props, context) {
     super(props, context);
+    this.state = {};
+    this.getFormStatus = :: this.getFormStatus;
     this.getFormModelValue = ::this.getFormModelValue;
     this.onControlRegistration = ::this.onControlRegistration;
     this.onControlUnregistration = ::this.onControlUnregistration;
@@ -38,7 +40,7 @@ export default class Form extends React.Component {
     return {
       formModel: this.props.model,
       getFormModelValue: this.getFormModelValue,
-      formStatus: this.getFormStatus(),
+      getFormStatus: this.getFormStatus,
       registerFormControl: this.onControlRegistration,
       unregisterFormControl: this.onControlUnregistration,
     };
@@ -91,7 +93,7 @@ export default class Form extends React.Component {
 
   getFormStatus () {
     return {
-      isSubmitting: this.state && this.state.isSubmitting,
+      isSubmitting: !!(this.state && this.state.isSubmitting),
     };
   }
 
@@ -141,7 +143,6 @@ export default class Form extends React.Component {
 
   renderValidationErrors () {
     if (this.props.showValidationErrors && this.state && this.state.validationErrors) {
-      console.log(this.state.validationErrors);
       const messages = this.state.validationErrors.map((validation, i) => {
         return <li key={ i } className="form__validation-errors__message">{ validation.errorMessage }</li>;
       });
@@ -207,11 +208,10 @@ export default class Form extends React.Component {
     });
   }
 
-  startSubmission () {
+  startSubmission (cb) {
     this.setState({
       isSubmitting: true,
-      errorMessage: false,
-    });
+    }, cb);
     this.registeredControls.forEach((input) => {
       if (input.setFormSubmitting) {
         input.setFormSubmitting(true, this);
@@ -222,7 +222,6 @@ export default class Form extends React.Component {
   endSubmission (cb) {
     this.setState({
       isSubmitting: false,
-      errorMessage: false,
     }, cb);
     this.registeredControls.forEach((input) => {
       if (input.setFormSubmitting) {
