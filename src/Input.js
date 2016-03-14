@@ -11,6 +11,7 @@ export default class Input extends React.Component {
     pattern: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     required: React.PropTypes.bool,
+    autofocus: React.PropTypes.bool,
     type: React.PropTypes.string.isRequired,
     value: React.PropTypes.any,
     offValue: React.PropTypes.any,
@@ -28,6 +29,9 @@ export default class Input extends React.Component {
 
   componentDidMount () {
     this.context.registerFormControl(this);
+    if (this.props.autofocus) {
+      this.refs.input.focus();
+    }
   }
 
   componentWillUnmount () {

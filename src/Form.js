@@ -60,12 +60,14 @@ export default class Form extends React.Component {
       }
       this.setState({
         validationErrors,
+        submissionError: undefined,
       });
       return undefined;
     }
 
     this.setState({
       validationErrors: undefined,
+      submissionError: undefined,
     }, () => {
       let shouldContinue = true;
       if (this.props.onSubmit) {
@@ -93,7 +95,9 @@ export default class Form extends React.Component {
 
   getFormStatus () {
     return {
-      isSubmitting: !!(this.state && this.state.isSubmitting),
+      isSubmitting: !!this.state.isSubmitting,
+      validationErrors: this.state.validationErrors,
+      submissionError: this.state.submissionError,
     };
   }
 
@@ -204,14 +208,18 @@ export default class Form extends React.Component {
         if (this.props.onCatch) {
           this.props.onCatch(response);
         }
+      }, {
+        submissionError: response,
       });
     });
   }
 
-  startSubmission (cb) {
-    this.setState({
+  startSubmission (callBack, additionalState = {}) {
+    this.setState(Object.assign({
       isSubmitting: true,
-    }, cb);
+      validationErrors: undefined,
+      submissionError: undefined,
+    }, additionalState), callBack);
     this.registeredControls.forEach((input) => {
       if (input.setFormSubmitting) {
         input.setFormSubmitting(true, this);
@@ -219,10 +227,10 @@ export default class Form extends React.Component {
     });
   }
 
-  endSubmission (cb) {
-    this.setState({
+  endSubmission (callBack, additionalState = {}) {
+    this.setState(Object.assign({
       isSubmitting: false,
-    }, cb);
+    }, additionalState), callBack);
     this.registeredControls.forEach((input) => {
       if (input.setFormSubmitting) {
         input.setFormSubmitting(false, this);

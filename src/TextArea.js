@@ -12,6 +12,7 @@ export default class TextArea extends React.Component {
     pattern: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     required: React.PropTypes.bool,
+    autofocus: React.PropTypes.bool,
     value: React.PropTypes.any,
     onBlur: React.PropTypes.func,
     onChange: React.PropTypes.func,
@@ -27,6 +28,9 @@ export default class TextArea extends React.Component {
 
   componentDidMount () {
     this.context.registerFormControl(this);
+    if (this.props.autofocus) {
+      this.refs.input.focus();
+    }
   }
 
   componentWillUnmount () {
