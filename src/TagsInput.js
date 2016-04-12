@@ -213,7 +213,19 @@ export default class TagsInput extends React.Component {
         </ul>
         <div className="tags-input__all">
           { this.renderErrorMessage() }
-          <input id={ this.props.id } placeholder={ this.props.placeholder } autoComplete="off" type="search" id={ this.getId() } onKeyPress={ this.onKeyPress } onKeyUp={ this.onKeyUp } onFocus={ this.onFocus } onBlur={ this.onBlur } onChange={ this.onChange } ref="searchInput" />
+          <input
+            id={ this.props.id }
+            placeholder={ this.props.placeholder }
+            autoComplete="off"
+            type="search"
+            id={ this.getId() }
+            onKeyPress={ this.onKeyPress }
+            onKeyUp={ this.onKeyUp }
+            onFocus={ this.onFocus }
+            onBlur={ this.onBlur }
+            onChange={ this.onChange }
+            ref="searchInput"
+          />
           { this.renderAutocompleteList() }
         </div>
       </div>
@@ -270,7 +282,13 @@ export default class TagsInput extends React.Component {
           className += ` ${className}--highlight`;
         }
         return (
-          <li key={ item[this.props.valueKey] } className={ className || '' } onClick={ this.onAutocompleteListSelect.bind(this, item) }>{ item[this.props.textKey] }</li>
+          <li
+            key={ item[this.props.valueKey] }
+            className={ className || '' }
+            onClick={ this.onAutocompleteListSelect.bind(this, item) }
+          >
+            { item[this.props.textKey] }
+          </li>
         );
       });
       return <ul className="tags-input__autocomplete">{ list }</ul>;
@@ -337,7 +355,8 @@ export default class TagsInput extends React.Component {
       if (this.state.lastSearch !== value) {
         const lower = value.toLowerCase();
         const filteredAutocompleteList = this.props.autocompleteList.filter((place) => {
-          return place[this.props.textKey].toLowerCase().indexOf(lower) !== -1 && this.getArrayValue().indexOf(place[this.props.valueKey]) === -1;
+          return place[this.props.textKey].toLowerCase().indexOf(lower) !== -1
+          && this.getArrayValue().indexOf(place[this.props.valueKey]) === -1;
         }).slice(0, 10);
 
         this.setState({

@@ -9,7 +9,7 @@
     "react/prop-types": 2,
     "arrow-body-style": 0,
     "react/prefer-stateless-function": 0,
-    "max-len": [2, 300, 2, {
+    "max-len": [2, 150, 2, {
       "ignoreUrls": true,
       "ignoreComments": false
     }],
