@@ -61,7 +61,7 @@ export default class TagsInput extends React.Component {
 
   buildAutcompleteListHash (list = []) {
     this.autocompleteListHash = {};
-    (list || []).map((item) => {
+    (list || []).forEach((item) => {
       const key = item[this.props.valueKey];
       this.autocompleteListHash[key] = item;
     });
@@ -224,6 +224,7 @@ export default class TagsInput extends React.Component {
     if (this.state.currentTagValidationError) {
       return <div className="tags-input__error">{ this.state.currentTagValidationError }</div>;
     }
+    return undefined;
   }
 
   renderLabel () {
@@ -234,6 +235,7 @@ export default class TagsInput extends React.Component {
         </label>
       );
     }
+    return undefined;
   }
 
   renderList () {
@@ -257,6 +259,7 @@ export default class TagsInput extends React.Component {
     } else if (this.props.emptyText) {
       return <em className="tags-input__empty-text">{ this.props.emptyText }</em>;
     }
+    return undefined;
   }
 
   renderAutocompleteList () {
@@ -272,6 +275,7 @@ export default class TagsInput extends React.Component {
       });
       return <ul className="tags-input__autocomplete">{ list }</ul>;
     }
+    return undefined;
   }
 
   addTag (tag) {
@@ -351,5 +355,6 @@ export default class TagsInput extends React.Component {
         highlightIndex: -1,
       });
     }
+    return undefined;
   }
 }

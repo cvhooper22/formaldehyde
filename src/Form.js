@@ -77,7 +77,9 @@ export default class Form extends React.Component {
         return undefined;
       }
       this.processFormAction(modelValue);
+      return undefined;
     });
+    return undefined;
   }
 
   onControlRegistration (input) {
@@ -156,12 +158,14 @@ export default class Form extends React.Component {
         </ul>
       );
     }
+    return undefined;
   }
 
   renderWaitIndicator () {
     if (this.state && this.state.isSubmitting && this.props.waitIndicator) {
       return <div className="form__wait-indictator">{ this.props.waitIndicator }</div>;
     }
+    return undefined;
   }
 
   gatherInputValues () {
@@ -193,6 +197,7 @@ export default class Form extends React.Component {
         }
       }
     }
+    return undefined;
   }
 
   processFormActionPromise (promise) {

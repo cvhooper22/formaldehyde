@@ -61,9 +61,8 @@ export default class Input extends React.Component {
   render () {
     if (this.isCheckbox() || this.isRadio()) {
       return this.renderRadioCheckbox();
-    } else {
-      return this.renderTextInput();
     }
+    return this.renderTextInput();
   }
 
   renderTextInput () {
