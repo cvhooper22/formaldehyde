@@ -41,10 +41,10 @@ export default class TextArea extends React.Component {
     if (this.props.id) {
       return this.props.id;
     }
-    if (!this._id) {
-      this._id = _.uniqueId('input');
+    if (!this.internalId) {
+      this.internalId = _.uniqueId('input');
     }
-    return this._id;
+    return this.internalId;
   }
 
   getModelValue () {

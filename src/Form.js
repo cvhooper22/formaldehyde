@@ -120,21 +120,25 @@ export default class Form extends React.Component {
   }
 
   getValidationErrors (modelValue) {
-    return _.chain(this.registeredControls).map((control) => {
-      if (!control.getValidationError) {
+    return _.chain(this.registeredControls)
+      .map((control) => {
+        if (!control.getValidationError) {
+          return undefined;
+        }
+        const errorMessage = control.getValidationError();
+        if (errorMessage) {
+          /* eslint-disable no-console */
+          console.warn('Validation error', control, errorMessage);
+          return {
+            errorMessage,
+            control,
+          };
+        }
         return undefined;
-      }
-      const errorMessage = control.getValidationError();
-      if (errorMessage) {
-        /* eslint-disable no-console */
-        console.warn('Validation error', control, errorMessage);
-        return {
-          errorMessage,
-          control,
-        };
-      }
-      return undefined;
-    }).concat(this.getFormValidationErrors(modelValue)).compact().value();
+      })
+      .concat(this.getFormValidationErrors(modelValue))
+      .compact()
+      .value();
   }
 
   render () {

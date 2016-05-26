@@ -153,10 +153,10 @@ export default class TagsInput extends React.Component {
   }
 
   getId () {
-    if (!this._id) {
-      this._id = _.uniqueId('tags-input__input');
+    if (!this.internalId) {
+      this.internalId = _.uniqueId('tags-input__input');
     }
-    return this._id;
+    return this.internalId;
   }
 
   getArrayValue () {
