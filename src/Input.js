@@ -45,13 +45,29 @@ export default class Input extends React.Component {
   getValue () {
     if (this.isRadio() || this.isCheckbox()) {
       if (this.refs.input.checked) {
-        return this.props.value || true;
+        return this.getCheckedValue();
       } else {
-        return this.props.offValue || undefined;
+        if (this.isRadio()) {
+          return this.getUnselectedValue();
+        } else {
+          return this.getUncheckedValue();
+        }
       }
     } else {
       return this.refs.input.value;
     }
+  }
+
+  getCheckedValue () {
+    return this.props.value || true;
+  }
+
+  getUncheckedValue () {
+    return this.props.offValue || false;
+  }
+
+  getUnselectedValue () {
+    return this.props.offValue || undefined;
   }
 
   getValidationError () {
@@ -88,7 +104,7 @@ export default class Input extends React.Component {
   }
 
   renderRadioCheckbox () {
-    const checked = this.getModelValue() === this.props.value;
+    const checked = this.getModelValue() === this.getCheckedValue();
     return (
       <input
         className={ this.props.className }
