@@ -27,7 +27,7 @@
   "author": "support@inlineblock.com",
   "license": "MIT",
   "peerDependencies": {
-    "react": "~15.1.0"
+    "react": "^15.2.1"
   },
   "devDependencies": {
     "babel-cli": "~6.9.0",
@@ -60,9 +60,9 @@
     "karma-sourcemap-loader": "~0.3.7",
     "karma-webpack": "~1.7.0",
     "mocha": "~2.5.3",
-    "react": "~15.1.0",
-    "react-addons-test-utils": "~15.1.0",
-    "react-dom": "~15.1.0",
+    "react": "~15.2.1",
+    "react-addons-test-utils": "^15.2.1",
+    "react-dom": "^15.2.1",
     "rimraf": "~2.5.2",
     "url-loader": "~0.5.7",
     "webpack": "~1.13.1",
