@@ -12,6 +12,7 @@ export default class Input extends React.Component {
     placeholder: React.PropTypes.string,
     required: React.PropTypes.bool,
     autofocus: React.PropTypes.bool,
+    title: React.PropTypes.string,
     type: React.PropTypes.string.isRequired,
     value: React.PropTypes.any,
     offValue: React.PropTypes.any,
@@ -98,6 +99,7 @@ export default class Input extends React.Component {
         placeholder={ this.props.placeholder }
         ref="input"
         required={ this.props.required }
+        title={ this.props.title }
         type={ this.props.type }
       />
     );
